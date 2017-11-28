@@ -14,12 +14,14 @@ namespace Client.Core
             Console.ReadKey();
             Console.Clear();
 
-            StartConnectionAsync();
+            StartConnectionAsync().Wait();
 
             _connection.On<string>("Boosh", (message) =>
             {
                 Console.WriteLine(message);
             });
+
+            _connection.InvokeAsync("Boosh", "Hello");
 
             Console.WriteLine("key");
             Console.ReadKey();

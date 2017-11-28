@@ -10,7 +10,7 @@ namespace SignalRDemo.Hubs
 	{
 		public Task Boosh(string text)
 		{
-			return Clients.All.InvokeAsync("OnBoosh", text);
+			return Clients.All.InvokeAsync("Boosh", text);
 		}
 
         public override Task OnConnectedAsync()

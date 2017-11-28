@@ -10,6 +10,8 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.SignalR;
 using SignalRDemo.Hubs;
+using Microsoft.Extensions.Hosting;
+using SignalRDemo.Services;
 
 namespace SignalRDemo
 {
@@ -29,7 +31,9 @@ namespace SignalRDemo
             services.AddSignalR();
             services.AddCors();
             services.AddMvc();
-		}
+
+            services.AddSingleton<IHostedService, TestBackgroundService>();
+        }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)

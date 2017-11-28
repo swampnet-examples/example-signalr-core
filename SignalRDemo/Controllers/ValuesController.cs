@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using SignalRDemo.Hubs;
+using SignalRDemo.Services;
 
 namespace SignalRDemo.Controllers
 {
@@ -12,17 +13,19 @@ namespace SignalRDemo.Controllers
     public class ValuesController : Controller
     {
         private readonly IHubContext<MyHub> _hub;
+        private readonly IClients _clients;
 
-        public ValuesController(IHubContext<MyHub> hub)
+        public ValuesController(IHubContext<MyHub> hub, IClients clients)
         {
             _hub = hub;
+            _clients = clients;
         }
 
         // GET api/values
         [HttpGet]
         public IEnumerable<string> Get()
         {
-            return new string[] { "value1", "value2" };
+            return _clients.Connections;
         }
 
         // GET api/values/5

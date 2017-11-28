@@ -32,6 +32,7 @@ namespace SignalRDemo
             services.AddCors();
             services.AddMvc();
 
+            services.AddSingleton<IClients, Clients>();
             services.AddSingleton<IHostedService, TestBackgroundService>();
         }
 

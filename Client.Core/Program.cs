@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace Client.Core
 {
-    class Program
+    static class Program
     {
         private static HubConnection _connection;
 
@@ -16,16 +16,35 @@ namespace Client.Core
 
             StartConnectionAsync().Wait();
 
-            _connection.On<string>("Boosh", (message) =>
+            _connection.On<string>("ProcessMessage", (message) =>
             {
                 Console.WriteLine(message);
             });
 
-            _connection.InvokeAsync("Boosh", "Hello");
+            while (true)
+            {
+                try
+                {
+                    Console.Write(">");
+                    var msg = Console.ReadLine();
+                    if (msg == "quit")
+                    {
+                        break;
+                    }
+                    if (msg == "test")
+                    {
+                        _connection.InvokeAsync("MadeUp", msg);
+                    }
 
-            Console.WriteLine("key");
-            Console.ReadKey();
-            
+                    _connection.InvokeAsync("Broadcast", msg);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+            }
+
+            _connection.DisposeAsync().Wait();
         }
 
         public static async Task StartConnectionAsync()

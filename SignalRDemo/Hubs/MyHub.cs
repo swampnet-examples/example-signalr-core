@@ -25,7 +25,9 @@ namespace SignalRDemo.Hubs
         /// <param name="text"></param>
         /// <returns></returns>
         public Task Broadcast(string text)
-		{            
+		{
+            // 'process-message' is probably not a good name, I think SignalR spins up a dynamic object in js, and this makes for an illegal name (unless it does
+            // some jiggery pokery under the hood)
 			return Clients.All.InvokeAsync("process-message", text);
 		}
 

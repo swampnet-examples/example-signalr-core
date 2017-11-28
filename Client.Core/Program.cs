@@ -13,7 +13,7 @@ namespace Client.Core
         {
             StartConnectionAsync().Wait();
 
-            // React to 'ProcessMessage' messages from the Hub
+            // React to 'process-message' messages from the Hub
             _connection.On<string>("process-message", (message) =>
             {
                 Console.WriteLine(message);
@@ -48,7 +48,7 @@ namespace Client.Core
                         _connection.InvokeAsync("BroadcastComplexType", name);
                     }
 
-                    if(msg == "pass-complex-type")
+                    if (msg == "pass-complex-type")
                     {
                         _connection.InvokeAsync("PassComplexType", new SomeComplexType());
                     }

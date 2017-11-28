@@ -10,13 +10,10 @@ namespace Client.Core
 
         static void Main(string[] args)
         {
-            Console.WriteLine("key");
-            Console.ReadKey();
-            Console.Clear();
-
             StartConnectionAsync().Wait();
 
-            _connection.On<string>("ProcessMessage", (message) =>
+            // React to 'ProcessMessage' messages from the Hub
+            _connection.On<string>("process-message", (message) =>
             {
                 Console.WriteLine(message);
             });
@@ -31,11 +28,14 @@ namespace Client.Core
                     {
                         break;
                     }
+
+                    // There is no 'MadeUp' method on the hub. We're expecting an error here.
                     if (msg == "test")
                     {
                         _connection.InvokeAsync("MadeUp", msg);
                     }
 
+                    // Call the Broadcast() method on the hub (which in turn calls 'process-message' on each client)
                     _connection.InvokeAsync("Broadcast", msg);
                 }
                 catch (Exception ex)

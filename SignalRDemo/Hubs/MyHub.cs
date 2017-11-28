@@ -20,7 +20,7 @@ namespace SignalRDemo.Hubs
 
         public Task Broadcast(string text)
 		{            
-			return Clients.All.InvokeAsync("ProcessMessage", text);
+			return Clients.All.InvokeAsync("process-message", text);
 		}
 
 

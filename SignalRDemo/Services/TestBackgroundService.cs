@@ -22,7 +22,7 @@ namespace SignalRDemo.Services
         {
             while (!stoppingToken.IsCancellationRequested)
             {
-                await _hub.Clients.All.InvokeAsync("ProcessMessage", DateTime.Now.ToString());
+                await _hub.Clients.All.InvokeAsync("process-message", DateTime.Now.ToString());
                 await Task.Delay(10000);
             }
 

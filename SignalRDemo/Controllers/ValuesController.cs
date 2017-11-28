@@ -32,9 +32,6 @@ namespace SignalRDemo.Controllers
         [HttpGet("{id}")]
         public string Get(int id)
         {
-            // HACK: Broadcast
-            _hub.Clients.All.InvokeAsync("Boosh", DateTime.Now.ToString());
-
             return "value";
         }
 

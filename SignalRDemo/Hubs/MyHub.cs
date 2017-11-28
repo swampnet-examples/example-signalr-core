@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Configuration;
+using Shared;
 using SignalRDemo.Services;
 using System;
 using System.Collections.Generic;
@@ -18,11 +19,25 @@ namespace SignalRDemo.Hubs
         }
 
 
+        /// <summary>
+        /// Broadcast a message to all connected clients
+        /// </summary>
+        /// <param name="text"></param>
+        /// <returns></returns>
         public Task Broadcast(string text)
 		{            
 			return Clients.All.InvokeAsync("process-message", text);
 		}
 
+        public Task BroadcastComplexType(string name)
+        {
+            return Clients.All.InvokeAsync("process-complex-type", new SomeComplexType() { Name = name });
+        }
+
+        public Task PassComplexType(SomeComplexType t)
+        {
+            return Clients.All.InvokeAsync("process-message", $"Received complex type {t.Id}");
+        }
 
         public override Task OnConnectedAsync()
         {

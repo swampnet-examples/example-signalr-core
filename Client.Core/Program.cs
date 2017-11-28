@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.SignalR.Client;
+using Shared;
 using System;
 using System.Threading.Tasks;
 
@@ -18,6 +19,10 @@ namespace Client.Core
                 Console.WriteLine(message);
             });
 
+            _connection.On<SomeComplexType>("process-complex-type", (x) => {
+                Console.WriteLine($"Received {x.Id} '{x.Name}'");
+            });
+
             while (true)
             {
                 try
@@ -33,6 +38,19 @@ namespace Client.Core
                     if (msg == "test")
                     {
                         _connection.InvokeAsync("MadeUp", msg);
+                    }
+
+                    // Grab a name and call the BroadcastComplexType method on the hub
+                    if (msg == "complex-type")
+                    {
+                        Console.Write("Name: ");
+                        var name = Console.ReadLine();
+                        _connection.InvokeAsync("BroadcastComplexType", name);
+                    }
+
+                    if(msg == "pass-complex-type")
+                    {
+                        _connection.InvokeAsync("PassComplexType", new SomeComplexType());
                     }
 
                     // Call the Broadcast() method on the hub (which in turn calls 'process-message' on each client)

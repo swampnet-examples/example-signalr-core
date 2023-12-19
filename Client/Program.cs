@@ -1,46 +1,67 @@
-﻿using Microsoft.AspNet.SignalR.Client;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.SignalR.Client;
 
-namespace Client
+namespace Client;
+
+internal static class Program
 {
-	class Program
-	{
-        static HubConnection _hubConnection;
+    private static HubConnection? _connection;
+    private static HubConnectionBuilder? _connectionBuilder;
 
-        static void Main(string[] args)
-		{
-            Console.Write("key to start");
-            Console.ReadKey();
-            Console.Clear();
+    static async Task Main(string[] args)
+    {
+        _connectionBuilder = new HubConnectionBuilder();
 
-            Boosh();
-
-			Console.Write("waiting...");
-			Console.ReadKey();
-		}
+        _connection = _connectionBuilder
+            .WithUrl("http://localhost:5000/testHub")
+            .WithAutomaticReconnect()
+            .Build();
 
 
-		// https://docs.microsoft.com/en-us/aspnet/signalr/overview/guide-to-the-api/hubs-api-guide-net-client#clientsetup
-		private static async Task Boosh()
-		{
-			try
-			{
-				_hubConnection = new HubConnection("http://localhost:53682/myhub");
-                _hubConnection.TraceLevel = TraceLevels.All;
-                _hubConnection.TraceWriter = Console.Out;
-                //IHubProxy myHubProxy = _hubConnection.CreateHubProxy("myhub");
+        #region Just subscribe and log various events
 
-                //stockTickerHubProxy.On<Stock>("UpdateStockPrice", stock => Console.WriteLine("Stock update for {0} new price {1}", stock.Symbol, stock.Price));
-                await _hubConnection.Start();
-			}
-			catch (Exception ex)
-			{
-				Console.WriteLine(ex.ToString());
-			}
-		}
+        _connection.Closed += (error) =>
+        {
+            Console.WriteLine($"Connection closed: {error?.Message}");
+            return Task.CompletedTask;
+        };
+
+        _connection.Reconnecting += (error) =>
+        {
+            Console.WriteLine($"Connection reconnecting: {error?.Message}");
+            return Task.CompletedTask;
+        };
+
+        _connection.Reconnected += (connectionId) =>
+        {
+            Console.WriteLine($"Connection reconnected: id: {connectionId}");
+            return Task.CompletedTask;
+        };
+
+        #endregion
+
+
+        _connection.On("msg", (string message) =>
+        {
+            Console.WriteLine("msg: " + message);
+        });
+
+        _connection.On("hb", (string message) =>
+        {
+            Console.WriteLine("hb: " + message);
+        });
+
+        await _connection.StartAsync();
+
+        Console.WriteLine("Type something to broadcast a message to all connected clients.");
+
+        while (true)
+        {
+            var message = Console.ReadLine();
+            if(message != null)
+            {
+                // Invoke SendMessage on the hub, passing in a message.
+                _connection?.InvokeAsync("SendMessage", message);
+            }
+        }
     }
 }

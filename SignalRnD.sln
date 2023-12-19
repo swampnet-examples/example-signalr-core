@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34309.116
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SignalRnD", "SignalRnD\SignalRnD.csproj", "{F598D0C2-D456-4F51-B22C-A22C3D13832B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Client", "Client\Client.csproj", "{31B74FF2-CFD1-4CE6-B9F8-073B3D77449A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F598D0C2-D456-4F51-B22C-A22C3D13832B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F598D0C2-D456-4F51-B22C-A22C3D13832B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F598D0C2-D456-4F51-B22C-A22C3D13832B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F598D0C2-D456-4F51-B22C-A22C3D13832B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{31B74FF2-CFD1-4CE6-B9F8-073B3D77449A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{31B74FF2-CFD1-4CE6-B9F8-073B3D77449A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{31B74FF2-CFD1-4CE6-B9F8-073B3D77449A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{31B74FF2-CFD1-4CE6-B9F8-073B3D77449A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {4E9AF6CE-2E2D-41FC-A897-CA342E4D9B34}
+	EndGlobalSection
+EndGlobal

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.SignalR;
 using Microsoft.AspNetCore.SignalR.Client;
+using Microsoft.Extensions.Configuration;
 
 namespace SignalRnD;
 
@@ -8,6 +9,13 @@ namespace SignalRnD;
 /// </summary>
 public class MessageHub : Hub
 {
+    private readonly IConfiguration _cfg;
+
+    public MessageHub(IConfiguration cfg)
+    {
+        _cfg = cfg;
+    }
+
     /// <summary>
     /// Called when a client connects to the hub.
     /// </summary>

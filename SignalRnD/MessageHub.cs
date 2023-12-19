@@ -17,6 +17,8 @@ public class MessageHub : Hub
 
         // Just broadcast an 'msg' back to the caller
         await Clients.Caller.SendAsync("msg", "connected");
+
+        // And send a message to all the other clients informing them of the noobie
         await Clients.Others.SendAsync("msg", $"Welcome '{Context.ConnectionId}' to the hub!");
 
         await base.OnConnectedAsync();

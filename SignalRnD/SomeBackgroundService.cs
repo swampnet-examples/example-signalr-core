@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.SignalR;
 using Microsoft.AspNetCore.SignalR.Client;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 
 namespace SignalRnD;
@@ -12,12 +13,12 @@ namespace SignalRnD;
 public class SomeBackgroundService : BackgroundService
 {
     private readonly HubConnection _connection;
-    private readonly HubConnectionBuilder _connectionBuilder;
+    private readonly IConfiguration _cfg;
 
-    public SomeBackgroundService()
+    public SomeBackgroundService(IConfiguration cfg)
     {
-        _connectionBuilder = new HubConnectionBuilder();
-        _connection = _connectionBuilder
+        _cfg = cfg;
+        _connection = new HubConnectionBuilder()
             .WithUrl("http://localhost:5000/testHub")
             .WithAutomaticReconnect()
             .Build();
